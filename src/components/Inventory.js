@@ -2,7 +2,7 @@ import React from 'react';
 
 class Inventory extends React.Component {
   render() {
-    return(
+    return (
       <div className="inventory">
         INVENTORY!!!
       </div>
