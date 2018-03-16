@@ -2,7 +2,7 @@ import React from 'react';
 
 class Order extends React.Component {
   render() {
-    return(
+    return (
       <div className="order">
         ORDER!!!
       </div>
