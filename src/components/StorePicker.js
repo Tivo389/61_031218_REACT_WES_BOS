@@ -6,8 +6,8 @@ class StorePicker extends React.Component {
 
   goToStore = (e) => {
     e.preventDefault();  // Prevent form submit
-    console.log(this);  // Get text from input
-    // CONTINUE HERE  // Change the page to /store/input
+    const storeName = this.myInput.value.value  // Get text from input
+    this.props.history.push(`/store/${storeName}`);  // Change the path to /store/input
   }
 
   render() {
