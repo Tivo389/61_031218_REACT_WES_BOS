@@ -14,15 +14,26 @@ class App extends React.Component {
 
   componentDidMount() {
     const { params } = this.props.match;
+    const localStorageRef = JSON.parse(localStorage.getItem(params.storeId)) || {};
     this.ref = base.syncState(`${params.storeId}/fishes`, {  // Note that this 'ref' is unrelated to 'React refs', it's a 'Firebase refs'.
       context: this,
       state: "fishes"
     });
+    // At this point the state of 'fishes' is not loaded yet since its transferring the data from Firebase.
+    // Local storage is already trying to access the fish.state which results in an error. GOTO ==> Order.js => 03261501-01
+    if(localStorageRef) {
+      this.setState({
+        order: localStorageRef
+      });
+    }
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem(this.props.match.params.storeId, JSON.stringify(this.state.order));
   }
 
   componentWillUnmount() {
     base.removeBinding(this.ref);
-    console.log('unmounted!');
   }
 
   addFish = (fish) => {
