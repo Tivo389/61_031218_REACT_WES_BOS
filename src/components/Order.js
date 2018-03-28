@@ -11,7 +11,10 @@ class Order extends React.Component {
     if(!isAvailable) {
       return <li key={key}>Sorry {fish ? fish.name : 'fish' } is no longer available.</li>  // 03261501-02: However this means there is 'a duration until fish data is received' which will allow this line of code to 'flicker'.
     }
-    return <li key={key}>{count} lbs {fish.name} {formatPrice(count * fish.price)}</li>
+    return (<li
+      key={key}>{count} lbs {fish.name} {formatPrice(count * fish.price)}
+      <button onClick={() => this.props.deleteOrder(key)}>✕</button>
+    </li>)
   }
 
   render() {

@@ -36,7 +36,7 @@ class App extends React.Component {
     base.removeBinding(this.ref);
   }
 
-  addFish = (fish) => {
+  addFish = (fish) => {                       // C - CREATE
     const fishes = {...this.state.fishes};    // 01: Take a copy of the existing state we are updating.
     fishes[`fish${Date.now()}`] = fish;       // 02: Add the new object to that state.
     this.setState({                           // 03: Update the state.
@@ -44,13 +44,21 @@ class App extends React.Component {
     });
   };
 
-  updateFish = (key, updateFish) => {
+  updateFish = (key, updateFish) => {         // U - UPDATE
     const fishes = {...this.state.fishes};    // 01: Take a copy of the existing state we are updating.
     fishes[key] = updateFish;                 // 02: Update the state
-    this.setState({                            // 03: Set the state
+    this.setState({                           // 03: Set the state
       fishes: fishes
     });
-  }
+  };
+
+  deleteFish = (key) => {                     // D - DELETE
+    const fishes = {...this.state.fishes};
+    fishes[key] = null; // If you want to update Firebase the value must be null.
+    this.setState({
+      fishes: fishes
+    });
+  };
 
   loadSampleFishes = () => {
     this.setState({
@@ -58,12 +66,21 @@ class App extends React.Component {
     });
   };
 
-  addToOrder = key => {
+  addToOrder = (key) => {
     const order = {...this.state.order};    // 01: Take a copy of the existing state we are updating.
     order[key] = order[key] + 1 || 1;       // 02: Get the integer or assign-default of 1.
     this.setState({                         // 03: Update the state.
       order: order
     });
+  };
+
+  deleteOrder = (key) => {
+    const order = {...this.state.order};
+    // order[key] = null; // If you want to update Firebase the value must be null. Problem: the li will stay with this method.
+    delete order[key]; // If you want to update Firebase the value must be null.
+    this.setState({
+      order: order
+    })
   };
 
   render() {
@@ -82,10 +99,12 @@ class App extends React.Component {
           </ul>
         </div>
         <Order
+          deleteOrder={this.deleteOrder}
           fishes={this.state.fishes}
           order={this.state.order}
         />
         <Inventory
+          deleteFish={this.deleteFish}
           addFish={this.addFish}
           updateFish={this.updateFish}
           loadSampleFishes={this.loadSampleFishes}
